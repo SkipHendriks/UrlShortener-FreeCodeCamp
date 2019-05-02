@@ -35,8 +35,9 @@ app.get('/', function(req, res){
 var Url = require('./models/url');
 
 // your first API endpoint... 
-app.post("/api/new", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.post("/api/shorturl/new", function (req, res) {
+  console.log(req.params.url);
+  res.json({"url": 'bla'});
 });
 
 
