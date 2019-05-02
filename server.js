@@ -48,7 +48,6 @@ app.get('/', function(req, res){
 app.post("/api/shorturl/new", function (req, res) {
   const hostname = new URL(req.body.url).hostname;
   dns.lookup(hostname, (err) => {
-    console.log(err);
     if (err) {
       res.status(400).json({error: "invalid URL"});
     } else {
@@ -67,14 +66,13 @@ app.get("/api/shorturl/:num", function (req, res) {
   Url.findOne({ 'num': req.params.num }, 'original_url', function (err, url) {
     if (err) {
       res.status(500).json({error: "serverError"})
-    }
-    if (url) {
+    } else if (url) {
       res.redirect(301, url.original_url);
     } else {
-      next(new NumNotFoundError());
+      res.status(400).json({error: "No short url found for given input"});
     }
   });
-)};
+});
 
 
 app.listen(port, function () {
