@@ -62,7 +62,6 @@ app.post("/api/shorturl/new", function (req, res) {
 
 // [GET] endpoint for accesing saved urls
 app.get("/api/shorturl/:num", function (req, res) {
-  console.log(req);
   Url.findOne({ 'short_url': req.params.num }, 'url', function (err, url) {
     if (err) {
       res.status(500).json({error: err})
