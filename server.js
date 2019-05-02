@@ -40,8 +40,11 @@ var Url = require('./models/url');
 
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res) {
-  
-  res.json({"url": req.body.url, short_url: generateUniqueNum();});
+  let url = new Url({url: req.body.url, short_url: generateUniqueNum()});
+  url.save((err) => {
+    if
+  })
+  res.json({url: url.url, short_url: url.short_url});
 });
 
 
@@ -56,7 +59,7 @@ function generateNum() {
 
 function generateUniqueNum() {
     var num = generateNum();
-    Url.findOne({num: num}, function(err, data) {
+    Url.findOne({short_url: num}, function(err, data) {
         if (err) console.log(err);
         if (data){
             num = generateUniqueNum();
