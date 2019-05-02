@@ -14,6 +14,8 @@ var port = process.env.PORT || 3000;
 /** this project needs a db !! **/ 
 mongoose.connect(process.env.MONGOLAB_URI);
 
+
+
 app.use(cors());
 
 /** this project needs to parse POST bodies **/
@@ -29,6 +31,8 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+
+var Url = require('./models/url');
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
