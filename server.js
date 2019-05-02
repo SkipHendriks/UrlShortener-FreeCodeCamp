@@ -27,7 +27,7 @@ app.use(parser.json());
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
-app.use(parser.urlencoded({     // to support URL-encoded bodies
+app.use(parser.urlencoded({
   extended: true
 }));
 
@@ -41,10 +41,26 @@ var Url = require('./models/url');
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res) {
   
-  res.json({"url": 'bla'});
+  res.json({"url": req.body.url, short_url: generateUniqueNum();});
 });
 
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
 });
+
+  
+function generateNum() {
+    return Math.floor(Math.random() * (9999 - 1000) + 1000);
+}
+
+function generateUniqueNum() {
+    var num = generateNum();
+    Url.findOne({num: num}, function(err, data) {
+        if (err) console.log(err);
+        if (data){
+            num = generateUniqueNum();
+        }
+    });
+    return num;
+}
