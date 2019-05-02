@@ -27,6 +27,10 @@ app.use(parser.json());
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
+app.use(parser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+
 app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
@@ -36,7 +40,7 @@ var Url = require('./models/url');
 
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res) {
-  console.log(req.params.url);
+  
   res.json({"url": 'bla'});
 });
 
