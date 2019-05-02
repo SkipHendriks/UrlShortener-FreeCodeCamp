@@ -22,8 +22,6 @@ mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }).catch(func
     console.log('Unable to connect to the mongodb instance. Error: ', err);
 });;
 
-
-
 app.use(cors());
 
 /** this project needs to parse POST bodies **/
@@ -54,7 +52,7 @@ app.post("/api/shorturl/new", function (req, res) {
       let url = new Url({url: req.body.url, short_url: generateUniqueNum()});
       url.save((err) => {
         if (err) {
-          res.status(500).json({error: "serverError"});
+          res.status(500).json({error: err});
         }
         res.json({url: url.url, short_url: url.short_url});
       });
@@ -62,10 +60,11 @@ app.post("/api/shorturl/new", function (req, res) {
   });
 });
 
+// [GET] endpoint for accesing saved urls
 app.get("/api/shorturl/:num", function (req, res) {
-  Url.findOne({ 'num': req.params.num }, 'original_url', function (err, url) {
+  Url.findOne({ 'short_url': req.params.num }, 'url', function (err, url) {
     if (err) {
-      res.status(500).json({error: "serverError"})
+      res.status(500).json({error: err})
     } else if (url) {
       res.redirect(301, url.original_url);
     } else {
