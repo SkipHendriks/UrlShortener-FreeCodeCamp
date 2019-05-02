@@ -80,7 +80,7 @@ app.listen(port, function () {
 
   
 function generateNum() {
-    return Math.floor(Math.random() * (9999 - 1000) + 1000);
+    return Math.floor(Math.random() * (9999 - 1001) + 1001);
 }
 
 function generateUniqueNum() {
