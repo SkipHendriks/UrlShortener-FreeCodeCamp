@@ -3,6 +3,7 @@
 var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var dns = require('dns');
 
 var cors = require('cors');
 
@@ -42,12 +43,19 @@ var Url = require('./models/url');
 
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res) {
-  let url = new Url({url: req.body.url, short_url: generateUniqueNum()});
-  url.save((err) => {
+  dns.lookup(req.body.url, (err) => {
+    console.log(err);
     if (err) {
-      res.status(500).json({error: "serverError"})
+      res.status(400).json({error: "invalid URL"});
+    } else {
+      let url = new Url({url: req.body.url, short_url: generateUniqueNum()});
+      url.save((err) => {
+        if (err) {
+          res.status(500).json({error: "serverError"})
+        }
+        res.json({url: url.url, short_url: url.short_url});
+      });
     }
-    res.json({url: url.url, short_url: url.short_url});
   });
 });
 
