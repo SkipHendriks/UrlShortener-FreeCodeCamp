@@ -43,7 +43,7 @@ var Url = require('./models/url');
 
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res) {
-  dns.lookup(req.body.url, (err) => {
+  dns.lookup(req.body.url,(err) => {
     console.log(err);
     if (err) {
       res.status(400).json({error: "invalid URL"});
