@@ -12,7 +12,9 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/ 
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true }).catch(function (err) {
+    console.log('Unable to connect to the mongodb instance. Error: ', err);
+});;
 
 
 
