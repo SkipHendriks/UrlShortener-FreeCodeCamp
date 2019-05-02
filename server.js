@@ -42,9 +42,11 @@ var Url = require('./models/url');
 app.post("/api/shorturl/new", function (req, res) {
   let url = new Url({url: req.body.url, short_url: generateUniqueNum()});
   url.save((err) => {
-    if
-  })
-  res.json({url: url.url, short_url: url.short_url});
+    if (err) {
+      res.status(500).json({error: "serverError"})
+    }
+    res.json({url: url.url, short_url: url.short_url});
+  });
 });
 
 
